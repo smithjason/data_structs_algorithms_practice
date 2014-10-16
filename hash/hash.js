@@ -72,7 +72,7 @@ HashTable.prototype = {
       this.table[pos][index] = [key, data];
     }
     else {
-      while(this.table[pos][index] != undefined){
+      while(this.table[pos][index] != undefined && this.table[pos][index][this.KEY] != key){
         index++;
       }
       this.table[pos][index] = [key, data];
