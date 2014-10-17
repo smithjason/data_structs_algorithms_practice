@@ -5,44 +5,55 @@
 =end
 
 class Node
-  attr_accessor :data, :next
+  attr_accessor :key, :value, :next
 
-  def initialize(data = nil)
-    @data = data
+  def initialize(key, value = nil)
+    @key = key
+    @value = value
     @next = nil
   end
 end
 
 class LinkedList
-  def initialize(value)
-    @head = Node.new(value)
+  def initialize(key, value)
+    @head = Node.new(key, value)
   end
 
-  def <<(value)
+  # add
+  def add(key, value)
     current = @head
 
     while(current.next)
       current = current.next
     end
 
-    current.next = Node.new(value)
+    current.next = Node.new(key, value)
     self
   end
 
-  def [](index)
-    return nil if index < 0
-
-    current = @head
-    i = 0
-
-    begin
-      while(i < index)
+  # find a node with the provided key and return it
+  def [](key)
+    if(@head.key == key)
+      return @head
+    else
+      current = @head
+      while(current.next && current.key != key)
         current = current.next
-        i += 1
       end
-      return current
-    rescue
-      return nil
+      if current.key == key
+        return current
+      else
+        return nil
+      end
+    end
+  end
+
+  # find a node with the provided key and set Node.value to value
+  def []=(key, value)
+    if self[key]
+      self[key].value = value
+    else
+      self.add(key, value)
     end
   end
 end
@@ -57,14 +68,14 @@ class HashTable
     @table = buildChains
   end
 
-  def [](key, value)
-    prehashedIndex = prehash(key)
+  def []=(key, value)
+    bucketIndex = prehash(key)
     index = 0
 
-    if !@table[prehashedIndex]
-      @table[prehashedIndex]
+    if !@table[bucketIndex]
+      @table[bucketIndex] = LinkedList.new(value)
     else
-
+      @table[bucketIndex][key] = value
     end
   end
 
@@ -82,7 +93,5 @@ class HashTable
     prehash = code_values.reduce do |total, value|
       total * PRIME_MULTIPLIER + value
     end
-
-    prehash
   end
 end
