@@ -49,11 +49,7 @@ class LinkedList
 
   def []=(key, value)
     node = self[key]
-    if node
-      node.value = value
-    else
-      self.add(key, value)
-    end
+    node ? node.value = value : self.add(key, value)
   end
 end
 
