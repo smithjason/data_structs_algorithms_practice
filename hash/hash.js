@@ -1,11 +1,19 @@
 function HashTable() {
+  this.KEY = 0;
+  this.VALUE = 1;
   this.table = new Array(137);
+  this.buildChains();
 }
 
 /*
 Determining Hash Function
 */
 HashTable.prototype = {
+  buildChains: function(){
+    for(var i = 0; i < this.table.length; ++i){
+      this.table[i] = new Array();
+    }
+  },
   //MODULAR HASHING WAY
   /*
   MODULAR HASHING
@@ -52,18 +60,38 @@ HashTable.prototype = {
   showDistro: function(){
     var n = 0;
     for(var i = 0; i < this.table.length; ++i){
-      if(this.table[i] != undefined){
+      if(this.table[i][0] != undefined){
         console.log(i + ': ' + this.table[i]);
       }
     }
   },
   put: function(key, data){
     var pos = this.betterHash(key);
-    this.table[pos] = data;
+    var index = 0;
+    if(this.table[pos][index] == undefined){
+      this.table[pos][index] = [key, data];
+    }
+    else {
+      while(this.table[pos][index] != undefined && this.table[pos][index][this.KEY] != key){
+        index++;
+      }
+      this.table[pos][index] = [key, data];
+    }
   },
   get: function(key){
+    var index = 0;
     var pos = this.betterHash(key);
-    return this.table[pos];
+
+    if(this.table[pos][index][this.KEY] == key){
+      return this.table[pos][index][this.VALUE];
+    }
+    else {
+      while(this.table[pos][index][this.KEY] != key){
+        index++;
+      }
+      return this.table[pos][index][this.VALUE];
+    }
+    return undefined;
   }
 }
 
@@ -71,3 +99,7 @@ var names = ['David','Jennifer','Donnie','Raymond',
             'Cynthia','Mike','Clayton','Danny','Jonathan'];
 
 var hash = new HashTable();
+
+for(var i = 0; i < names.length; ++i){
+  hash.put(names[i], i);
+}
