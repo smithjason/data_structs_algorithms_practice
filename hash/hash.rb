@@ -31,7 +31,6 @@ class LinkedList
     self
   end
 
-  # find a node with the provided key and return it
   def [](key)
     if(@head.key == key)
       return @head
@@ -48,10 +47,10 @@ class LinkedList
     end
   end
 
-  # find a node with the provided key and set Node.value to value
   def []=(key, value)
-    if self[key]
-      self[key].value = value
+    node = self[key]
+    if node
+      node.value = value
     else
       self.add(key, value)
     end
@@ -65,25 +64,25 @@ class HashTable
   PRIME_MULTIPLIER = 37
 
   def initialize
-    @table = buildChains
+    @table = Array.new(TABLE_SIZE)
   end
 
   def []=(key, value)
     bucketIndex = prehash(key)
-    index = 0
 
     if !@table[bucketIndex]
-      @table[bucketIndex] = LinkedList.new(value)
+      @table[bucketIndex] = LinkedList.new(key, value)
     else
       @table[bucketIndex][key] = value
     end
   end
 
-  private
-
-  def buildChains
-    Array.new(TABLE_SIZE)
+  def [](key)
+    bucketIndex = prehash(key)
+    @table[bucketIndex] ? @table[bucketIndex][key].value : nil
   end
+
+  private
 
   def prehash(key)
     code_values = key.split("").map do |individual_char|
@@ -93,5 +92,13 @@ class HashTable
     prehash = code_values.reduce do |total, value|
       total * PRIME_MULTIPLIER + value
     end
+
+    prehash %= TABLE_SIZE
+
+    if(prehash < 0)
+      prehash += TABLE_SIZE - 1
+    end
+
+    prehash
   end
 end
