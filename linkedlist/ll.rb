@@ -43,7 +43,7 @@ class LinkedList
         current = current.next
       end
 
-      temp_list << yield(current.value)
+      temp_list << yield(current.value) if current
 
       temp_list
     end
