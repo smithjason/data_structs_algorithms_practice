@@ -19,17 +19,6 @@ class LinkedList
     @head = Node.new(key, value)
   end
 
-  # add
-  def add(key, value)
-    current = @head
-
-    while(current.next)
-      current = current.next
-    end
-
-    current.next = Node.new(key, value)
-    self
-  end
 
   def [](key)
     if(@head.key == key)
@@ -50,6 +39,19 @@ class LinkedList
   def []=(key, value)
     node = self[key]
     node ? node.value = value : self.add(key, value)
+  end
+
+  private
+
+  def add(key, value)
+    current = @head
+
+    while(current.next)
+      current = current.next
+    end
+
+    current.next = Node.new(key, value)
+    self
   end
 end
 
