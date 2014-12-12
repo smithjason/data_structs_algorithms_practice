@@ -2,7 +2,7 @@
 # Space: O(n)
 
 def merge_sort(list)
-  return list if list.length == 1
+  return list if list.length <= 1
 
   middle = list.length / 2
   left = merge_sort(list[0..middle-1])
