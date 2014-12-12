@@ -14,3 +14,8 @@ def bubble_sort(list)
   end
   list
 end
+
+unsorted = [3, 1, 7, 2, 5]
+unsorted2 = [10, 3, 2, 35, 23, 6, 5]
+p bubble_sort(unsorted) # => [1, 2, 3, 5, 7]
+p bubble_sort(unsorted2) #=> [2, 3, 5, 6, 10, 23, 35]
