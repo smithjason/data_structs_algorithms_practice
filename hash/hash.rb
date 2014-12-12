@@ -19,7 +19,6 @@ class LinkedList
     @head = Node.new(key, value)
   end
 
-
   def [](key)
     if(@head.key == key)
       return @head
