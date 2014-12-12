@@ -34,4 +34,41 @@ class BinaryTree
       end
     end
   end
+
+  def inorder_traversal(node = @root)
+    return nil if node == nil
+
+    inorder_traversal(node.left)
+    puts node.value.to_s
+    inorder_traversal(node.right)
+  end
+
+  def preorder_traversal(node = @root)
+    return nil if node == nil
+
+    puts node.value.to_s
+    preorder_traversal(node.left)
+    preorder_traversal(node.right)
+  end
+
+  def postorder_traversal(node = @root)
+    return nil if node == nil
+
+    postorder_traversal(node.left)
+    postorder_traversal(node.right)
+    puts node.value.to_s
+  end
 end
+
+tree = BinaryTree.new(20)
+tree.insert(10)
+tree.insert(30)
+
+puts "INORDER"
+tree.inorder_traversal
+
+puts "PREORDER"
+tree.preorder_traversal
+
+puts "POSTORDER"
+tree.postorder_traversal
