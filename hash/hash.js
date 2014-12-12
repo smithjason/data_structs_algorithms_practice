@@ -42,11 +42,11 @@ HashTable.prototype = {
     Same as modular but * Sum by Prime # Constant
       recommended a small prime #
   */
-  betterHash: function(data){
+  betterHash: function(key){
     var primeHashMultiplier = 37;
     var total = 0;
-    for(var i = 0; i < data.length; ++i){
-      total += primeHashMultiplier * total + data.charCodeAt(i);
+    for(var i = 0; i < key.length; ++i){
+      total += primeHashMultiplier * total + key.charCodeAt(i);
     }
 
     total = total % this.table.length;
