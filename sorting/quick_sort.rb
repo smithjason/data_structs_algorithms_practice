@@ -3,14 +3,27 @@
   Space: O (n)
 =end
 
+# def quick_sort(list)
+#   return list if list.length <= 1
+
+#   pivot = list.sample
+#   list_items_less_than_pivot = list.find_all{ |i| i < pivot }
+#   list_items_greater_than_pivot = list.find_all{ |i| i > pivot }
+
+#   quick_sort(list_items_less_than_pivot) + [pivot] + quick_sort(list_items_greater_than_pivot)
+# end
+
 def quick_sort(list)
   return list if list.length <= 1
 
   pivot = list.sample
-  list_items_less_than_pivot = list.find_all{ |i| i < pivot }
-  list_items_greater_than_pivot = list.find_all{ |i| i > pivot }
+  partitions = list.group_by { |x| x <=> pivot }
+  partitions.default = []
 
-  quick_sort(list_items_less_than_pivot) + [pivot] + quick_sort(list_items_greater_than_pivot)
+  less_than_pivot = partitions[-1]
+  greater_than_pivot = partitions[1]
+
+  quick_sort(less_than_pivot) + [pivot] + quick_sort(greater_than_pivot)
 end
 
 unsorted = [4, 2, 8, 3, 1]
